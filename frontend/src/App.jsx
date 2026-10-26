@@ -1,14 +1,23 @@
 import { useEffect, useState } from 'react'
-import { fetchDayAhead } from './api'
+import { fetchDayAhead, fetchErrorByHorizon } from './api'
+import DailyErrorChart from './components/DailyErrorChart'
 import DayChart from './components/DayChart'
+import HorizonChart from './components/HorizonChart'
 import Summary from './components/Summary'
 import { formatDateTime, formatDay, formatMW, formatSignedMW, formatTime } from './format'
 
 export default function App() {
   const [cutoff, setCutoff] = useState('09:20')
   const [dayAhead, setDayAhead] = useState(null)
+  const [horizon, setHorizon] = useState([])
   const [selectedDate, setSelectedDate] = useState(null)
   const [error, setError] = useState(null)
+
+  useEffect(() => {
+    fetchErrorByHorizon()
+      .then(setHorizon)
+      .catch((err) => setError(err.message))
+  }, [])
 
   useEffect(() => {
     let ignore = false // drop responses for a cutoff the user has already moved away from
@@ -30,6 +39,7 @@ export default function App() {
   if (!dayAhead) return <p className="message">Loading January data from Elexon…</p>
 
   const day = dayAhead.days.find((d) => d.date === selectedDate)
+  const decisionHorizon = hoursAhead(day)
 
   return (
     <div className="page">
@@ -83,7 +93,34 @@ export default function App() {
         <Summary stats={dayAhead.summary} />
       </section>
 
+      <div className="columns">
+        <section className="card">
+          <h2>Error by delivery day</h2>
+          <p className="caption">Mean absolute error of each day's forecast, in MW. Click a bar to open that day.</p>
+          <DailyErrorChart days={dayAhead.days} selectedDate={selectedDate} onSelect={setSelectedDate} />
+        </section>
+        <section className="card">
+          <h2>Error by forecast horizon</h2>
+          <p className="caption">
+            All January forecasts, by how far ahead they were made.
+            {decisionHorizon &&
+              ` Shaded: a ${cutoff} decision relies on forecasts made ${decisionHorizon[0]} to ${decisionHorizon[1] + 1} hours ahead.`}
+          </p>
+          <HorizonChart buckets={horizon} highlight={decisionHorizon} />
+        </section>
+      </div>
+
       <footer>Data: Elexon BMRS, FUELHH (wind outturn) and WINDFOR (wind forecast).</footer>
     </div>
   )
+}
+
+// Whole hours between the forecast's publish time and the first/last hour it covers on this day.
+function hoursAhead(day) {
+  if (!day.forecastPublished) return null
+  const published = new Date(day.forecastPublished)
+  const hours = day.points
+    .filter((p) => p.forecast != null)
+    .map((p) => Math.floor((new Date(p.time) - published) / 3_600_000))
+  return [Math.min(...hours), Math.max(...hours)]
 }

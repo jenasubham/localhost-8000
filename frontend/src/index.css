@@ -84,6 +84,11 @@ header p {
   color: var(--muted);
 }
 
+/* Recharts focuses part of the chart on click, which otherwise draws a box around it */
+.recharts-wrapper :focus:not(:focus-visible) {
+  outline: none;
+}
+
 .legend-label {
   color: var(--text);
   font-size: 0.85rem;
@@ -96,7 +101,7 @@ header p {
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 12px;
 }
 
@@ -117,6 +122,18 @@ header p {
   font-size: 1.3rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 860px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
 }
 
 .message {

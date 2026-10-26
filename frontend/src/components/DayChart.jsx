@@ -9,12 +9,14 @@ export default function DayChart({ points, p10, p90 }) {
     // error = forecast - actual, so 80% of the time actual sat between forecast - p90 and forecast - p10
     range: p.forecast == null ? null : [Math.max(p.forecast - p90, 0), p.forecast - p10],
   }))
+  // a label every 3 hours, or every 6 on phones so they don't run into each other
+  const tickInterval = window.innerWidth < 600 ? 11 : 5
 
   return (
     <ResponsiveContainer width="100%" height={320}>
       <ComposedChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
         <CartesianGrid stroke="#e5e7eb" vertical={false} />
-        <XAxis dataKey="time" interval={5} tick={{ fontSize: 12 }} />
+        <XAxis dataKey="time" interval={tickInterval} tick={{ fontSize: 12 }} />
         <YAxis tickFormatter={formatNumber} tick={{ fontSize: 12 }} width={56} />
         <Tooltip formatter={(value) => (Array.isArray(value) ? value.map(formatMW).join(' to ') : formatMW(value))} />
         <Legend formatter={(name) => <span className="legend-label">{name}</span>} />
