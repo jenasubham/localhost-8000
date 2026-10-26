@@ -1,5 +1,3 @@
-# Build the React app, then serve it from the FastAPI container so everything
-# runs as a single service.
 FROM node:24-alpine AS frontend
 WORKDIR /frontend
 COPY frontend/package.json frontend/package-lock.json ./
@@ -18,7 +16,7 @@ COPY --from=frontend /frontend/dist ./static
 RUN useradd --create-home appuser
 USER appuser
 
-# Heroku tells the app which port to use through $PORT
+
 ENV PORT=8000
 EXPOSE 8000
 CMD ["sh", "-c", "exec uvicorn app.main:app --host 0.0.0.0 --port $PORT"]
