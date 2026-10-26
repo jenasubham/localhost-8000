@@ -37,11 +37,6 @@ def get_data() -> tuple[analysis.Actuals, analysis.Runs]:
         raise HTTPException(502, "Couldn't load data from Elexon, please try again in a minute.") from exc
 
 
-@app.get("/api/health")
-def health():
-    return {"status": "ok"}
-
-
 @app.get("/api/day-ahead")
 def day_ahead(cutoff: time = DEFAULT_CUTOFF):
     actuals, runs = get_data()
