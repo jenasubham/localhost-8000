@@ -7,7 +7,7 @@ wind actually generated, and it measures how far off those forecasts were.
 Scope: GB national wind only, purchase decisions made in January 2026 (so deliveries from 2 Jan to 1 Feb),
 data from Elexon BMRS.
 
-- Live app: _add link after deploying_
+- Live app: [Wind Forecast Monitor](https://localhost-8000-alpha.vercel.app/)
 - Demo video: _add link_
 
 ## What it shows
@@ -107,17 +107,8 @@ docker-compose.yml
   (0–48 h).
 - Interactive docs at `/docs`.
 
-## Known limitations
-
-- Data is fetched from Elexon on the first request and kept in memory, so there is no database and a
-  restart (or a cold start on Vercel) means fetching again, which takes a few seconds.
-- The 80% band is built from the same January data it is drawn on. With more history it should come from
-  earlier months.
-- The January 2026 window is hard-coded.
-- No frontend tests yet.
-
 ## Use of AI tools
 
-I used Claude Code (Anthropic's AI coding assistant) while building this, for scaffolding, writing parts of
+I used Claude Code while building this, for scaffolding, writing parts of
 the code, checking the Elexon data and drafting this README. I reviewed and tested everything, and the
 design decisions and analysis approach are mine to explain.
