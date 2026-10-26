@@ -1,30 +1,52 @@
-import { formatDateTime, formatMW, formatSigned, formatSignedMW } from '../format'
+import { formatDateTime, formatNumber, formatSigned } from '../format'
 
-export default function Summary({ stats }) {
+export default function Summary({ stats, onOpenDay }) {
+  const runsHigh = stats.bias > 0
+
   return (
     <div className="stats">
-      <Stat label="Mean absolute error" value={formatMW(stats.mae)} note="typical miss in any hour" />
+      <Stat label="Mean absolute error" note="Typical miss in any hour">
+        {formatNumber(stats.mae)}
+      </Stat>
       <Stat
         label="Bias"
-        value={formatSignedMW(stats.bias)}
-        note={stats.bias > 0 ? 'forecast runs high on average' : 'forecast runs low on average'}
-      />
-      <Stat label="RMSE" value={formatMW(stats.rmse)} note="weights big misses more" />
+        note={
+          <span className={`tag ${runsHigh ? 'short' : 'long'}`}>
+            {runsHigh ? 'Forecast runs high' : 'Forecast runs low'}
+          </span>
+        }
+      >
+        {formatSigned(stats.bias)}
+      </Stat>
+      <Stat label="RMSE" note="Weights big misses more">
+        {formatNumber(stats.rmse)}
+      </Stat>
+      <Stat label="80% of errors within" note="10th to 90th percentile" compact>
+        {formatSigned(stats.p10)} <span className="to">to</span> {formatSigned(stats.p90)}
+      </Stat>
       <Stat
-        label="Middle 80% of errors"
-        value={`${formatSigned(stats.p10)} to ${formatSigned(stats.p90)}`}
-        note="MW, 10th to 90th percentile"
-      />
-      <Stat label="Largest miss" value={formatSignedMW(stats.worst.error)} note={formatDateTime(stats.worst.time)} />
+        label="Largest miss"
+        note={
+          <button type="button" className="link" onClick={() => onOpenDay(stats.worst.time)}>
+            {formatDateTime(stats.worst.time)} · view day →
+          </button>
+        }
+      >
+        {formatSigned(stats.worst.error)}
+      </Stat>
     </div>
   )
 }
 
-function Stat({ label, value, note }) {
+// `compact` is for the two-number range, which doesn't fit on one line at full size
+function Stat({ label, note, compact = false, children }) {
   return (
     <div className="stat">
       <div className="stat-label">{label}</div>
-      <div className="stat-value">{value}</div>
+      <div className={compact ? 'stat-value compact' : 'stat-value'}>
+        {children}
+        <span className="unit">MW</span>
+      </div>
       <div className="stat-note">{note}</div>
     </div>
   )

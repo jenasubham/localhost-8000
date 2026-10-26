@@ -15,9 +15,9 @@ data from Elexon BMRS.
 - **Forecast vs actual for a delivery day.** You pick the day and the decision cutoff (UK time, default
   09:20, when the EPEX GB day-ahead auction closes). The forecast shown is the newest one published before
   the cutoff on the day before delivery. The shaded band is where actual wind landed 80% of the time in
-  January for a given forecast.
+  January for a given forecast, and a marker shows the day's largest miss. The arrows step through days.
 - **Accuracy across all January decisions.** Mean absolute error, RMSE, bias, the 10th–90th percentile error
-  range and the largest single miss.
+  range and the largest single miss, which links straight to that day.
 - **Error by delivery day.** Click a bar to open that day in the main chart.
 - **Error by forecast horizon.** How error grows the further ahead a forecast is made, with the horizons
   your decision actually depends on shaded.
@@ -88,8 +88,9 @@ backend/
   tests/               pytest tests for analysis.py
   requirements.txt
 frontend/
-  src/App.jsx          page layout, controls and data loading
-  src/components/      the charts and the summary cards
+  src/App.jsx          page layout and data loading
+  src/components/      header and controls, the day panel, charts and summary cards
+  src/chartTheme.js    shared chart colours and tooltip/axis styling
   src/api.js           fetch helpers
   src/format.js        number and UK-time formatting
 api/index.py           Vercel entry point, exposes the FastAPI app as a serverless function
