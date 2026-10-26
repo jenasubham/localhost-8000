@@ -8,7 +8,10 @@ Scope: GB national wind only, purchase decisions made in January 2026 (so delive
 data from Elexon BMRS.
 
 - Live app: [Wind Forecast Monitor](https://localhost-8000-alpha.vercel.app/)
-- Demo video: _add link_
+- Demo video:
+
+## Architecture
+<img width="1833" height="2797" alt="architecture" src="https://github.com/user-attachments/assets/c9f246aa-3074-41a3-886d-2a80c5774626" />
 
 ## What it shows
 
