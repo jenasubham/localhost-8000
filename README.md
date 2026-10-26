@@ -72,6 +72,12 @@ cd backend && pytest
 cd frontend && npm run lint
 ```
 
+## Deployment
+
+The live app runs on Vercel. `vercel.json` builds the frontend into static files and sends every `/api/*`
+request to `api/index.py`, a Python serverless function that loads the same FastAPI app from `backend/`.
+The Dockerfile is for running the whole thing locally as one container.
+
 ## Project layout
 
 ```
@@ -86,6 +92,8 @@ frontend/
   src/components/      the charts and the summary cards
   src/api.js           fetch helpers
   src/format.js        number and UK-time formatting
+api/index.py           Vercel entry point, exposes the FastAPI app as a serverless function
+vercel.json            Vercel build and routing config
 Dockerfile             builds the frontend, then serves everything from one Python container
 docker-compose.yml
 ```
@@ -101,7 +109,7 @@ docker-compose.yml
 ## Known limitations
 
 - Data is fetched from Elexon on the first request and kept in memory, so there is no database and a
-  restart means fetching again.
+  restart (or a cold start on Vercel) means fetching again, which takes a few seconds.
 - The 80% band is built from the same January data it is drawn on. With more history it should come from
   earlier months.
 - The January 2026 window is hard-coded.
