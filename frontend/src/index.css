@@ -84,6 +84,16 @@ header p {
   color: var(--muted);
 }
 
+.legend-label {
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+.day-stats {
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+}
+
 .stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));

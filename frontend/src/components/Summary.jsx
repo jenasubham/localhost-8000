@@ -12,8 +12,8 @@ export default function Summary({ stats }) {
       <Stat label="RMSE" value={formatMW(stats.rmse)} note="weights big misses more" />
       <Stat
         label="Middle 80% of errors"
-        value={`${formatSigned(stats.p10)} to ${formatSignedMW(stats.p90)}`}
-        note="10th to 90th percentile"
+        value={`${formatSigned(stats.p10)} to ${formatSigned(stats.p90)}`}
+        note="MW, 10th to 90th percentile"
       />
       <Stat label="Largest miss" value={formatSignedMW(stats.worst.error)} note={formatDateTime(stats.worst.time)} />
     </div>
