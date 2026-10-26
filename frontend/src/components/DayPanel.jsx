@@ -11,28 +11,20 @@ export default function DayPanel({ day, p10, p90, leadHours }) {
       <div className="card-head">
         <div>
           <h2>
-            Forecast vs actual <span className="dim">· {formatDay(day.date)}</span>
+            Forecast vs actual <span className="dim">for {formatDay(day.date)}</span>
           </h2>
-          <ul className="meta">
-            <li>
-              Decision <strong>{formatDateTime(day.decisionTime)}</strong>
-            </li>
+          <p className="meta">
+            Decided <strong>{formatDateTime(day.decisionTime)}</strong>
             {day.forecastPublished ? (
-              <li>
-                Forecast published <strong>{formatDateTime(day.forecastPublished)}</strong>
-              </li>
+              <>
+                {' '}
+                using the forecast published <strong>{formatDateTime(day.forecastPublished)}</strong>, made{' '}
+                {leadHours[0]} to {leadHours[1] + 1} hours ahead of delivery.
+              </>
             ) : (
-              <li>No forecast was out before the decision</li>
+              ', before any forecast for this day was published.'
             )}
-            {leadHours && (
-              <li>
-                <strong>
-                  {leadHours[0]}–{leadHours[1] + 1} h
-                </strong>{' '}
-                ahead
-              </li>
-            )}
-          </ul>
+          </p>
         </div>
         <ChartLegend
           items={[
@@ -49,7 +41,7 @@ export default function DayPanel({ day, p10, p90, leadHours }) {
         {stats && (
           <dl className="day-stats">
             <div>
-              <dt>Mean abs. error</dt>
+              <dt>Mean absolute error</dt>
               <dd>{formatMW(stats.mae)}</dd>
             </div>
             <div>

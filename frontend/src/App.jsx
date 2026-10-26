@@ -115,10 +115,7 @@ export default function App() {
         </div>
       </main>
 
-      <footer>
-        <span>Source: Elexon BMRS, FUELHH (wind outturn) and WINDFOR (wind forecast)</span>
-        <span>All times are UK time</span>
-      </footer>
+      <footer>All times are UK time</footer>
     </div>
   )
 }

@@ -11,7 +11,7 @@ export default function Summary({ stats, onOpenDay }) {
       <Stat
         label="Bias"
         note={
-          <span className={`tag ${runsHigh ? 'short' : 'long'}`}>
+          <span className={runsHigh ? 'short' : 'long'}>
             {runsHigh ? 'Forecast runs high' : 'Forecast runs low'}
           </span>
         }
@@ -27,9 +27,12 @@ export default function Summary({ stats, onOpenDay }) {
       <Stat
         label="Largest miss"
         note={
-          <button type="button" className="link" onClick={() => onOpenDay(stats.worst.time)}>
-            {formatDateTime(stats.worst.time)} · view day →
-          </button>
+          <>
+            {formatDateTime(stats.worst.time)},{' '}
+            <button type="button" className="link" onClick={() => onOpenDay(stats.worst.time)}>
+              view that day
+            </button>
+          </>
         }
       >
         {formatSigned(stats.worst.error)}

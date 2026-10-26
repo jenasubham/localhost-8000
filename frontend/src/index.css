@@ -82,12 +82,6 @@ select {
   border-bottom: 1px solid var(--border);
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
 .brand h1 {
   font-size: 20px;
   font-weight: 600;
@@ -98,28 +92,6 @@ select {
   margin-top: 2px;
   font-size: 13px;
   color: var(--muted);
-}
-
-.logo {
-  flex: none;
-  width: 40px;
-  height: 40px;
-}
-
-.logo rect {
-  fill: rgba(245, 181, 68, 0.1);
-  stroke: rgba(245, 181, 68, 0.3);
-}
-
-.logo path {
-  fill: none;
-  stroke: var(--forecast);
-  stroke-width: 2.2;
-  stroke-linecap: round;
-}
-
-.logo circle {
-  fill: var(--forecast);
 }
 
 .controls {
@@ -137,10 +109,7 @@ select {
 .field-label,
 .stat-label,
 .day-stats dt {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 12.5px;
   color: var(--muted);
 }
 
@@ -236,26 +205,11 @@ input[type='time'] {
   color: var(--muted);
 }
 
-.meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 10px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.meta li {
-  padding: 3px 10px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: rgba(148, 163, 184, 0.05);
-  font-size: 12px;
-  color: var(--muted);
+.card-head .meta {
+  margin-top: 6px;
 }
 
 .meta strong {
-  font-family: var(--mono);
   font-weight: 500;
   color: var(--text);
 }
@@ -394,31 +348,12 @@ input[type='time'] {
   color: var(--muted);
 }
 
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 1px 9px;
-  border-radius: 999px;
-  font-size: 12px;
-}
-
-.tag::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-}
-
-.tag.short {
+.stat-note .short {
   color: var(--error);
-  background: rgba(255, 138, 122, 0.1);
 }
 
-.tag.long {
+.stat-note .long {
   color: var(--long);
-  background: rgba(90, 216, 166, 0.1);
 }
 
 .link {
